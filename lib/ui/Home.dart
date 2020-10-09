@@ -883,7 +883,7 @@ class _NewAdsState extends State<NewAds> {
                       mainAxisSpacing: 5,
                       childAspectRatio: screenSizeHieght > 800 ? 0.7 : 0.6,
                       children: List.generate(
-                          snapshot.data.documents.length < 20 ? 4 : 13,
+                          snapshot.data.documents.length < 100 ? 22 : 99,
                           (index) {
                         return InkWell(
                           onTap: () {

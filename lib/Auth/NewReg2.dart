@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'Login.dart';
@@ -139,5 +140,14 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
         ],
       )
     );
+  }
+  showMessage(String msg) {
+    Fluttertoast.showToast(
+        msg:msg,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.blue,
+        fontSize: 15,
+        textColor: Colors.white);
   }
 }

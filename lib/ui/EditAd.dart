@@ -5,6 +5,7 @@ import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -163,7 +164,20 @@ class _EditAdState extends State<EditAd> {
   ];
   var dropSelectItemCategory = 'إختر القسم الرئيسي';
   String category = '';
-  var dropItemsArea = ['إختر المنطقة من هنا', 'العاصمة', 'الفروانية'];
+  var dropItemsArea = ['إختر المنطقة من هنا',
+    'الباغوز', 'السوسة',
+    'الشعفة', 'البوخاطر', 'هجين', 'البحرة',
+    'غرانيج', 'الكشكية', 'ابو حمام', 'ابو حردوب',
+    'البورحمة', 'سويدان', 'درنج', 'جمة',
+    'الشنان', 'الطيانة', 'ذيبان', 'الحوايج',
+    'الشحيل', 'الزر', 'البصيرة', 'الحجنة',
+    'الصور', 'الشدادي',
+    'الحسكة', 'جديد عقيدات', 'جديد بكارة', 'خشام',
+    'مراط', 'حطلة', 'الحسينية', 'الكسرة',
+    'حمار العلي','دير الزور',
+    'الرقة', 'منبج', 'حلب',
+    'إدلب', 'حمص', 'حماة',
+    'دمشق', 'درعا', 'حلب',];
   var dropSelectItemArea = 'إختر المنطقة من هنا';
   String area = '';
   bool chacked = false;
@@ -1410,28 +1424,43 @@ class _EditAdState extends State<EditAd> {
       _phone,
       context) async {
     var currentUser = await FirebaseAuth.instance.currentUser();
-    if (_formkey.currentState.validate()) {
-      Firestore.instance.collection('Ads').document(documentId).updateData({
-        'category': _category,
-        'department': _department,
-        'name': _name,
-        'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
-        'status': _status,
-        'description': _description,
-        'area': _area,
-        'price': _price,
-        'deviceNo': _deviceNo,
-        'imagesUrl':urlImages,
-        'phone': _phone,
-        'uid': currentUser.uid,
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MyAccount()),
-      );
-      loadingImage = false;
-    } else {
-      print('please try later');
+    if(_image1!=null && category2 !=null && category !=null){
+      if (_formkey.currentState.validate()) {
+        Firestore.instance.collection('Ads').document().setData({
+          'category': _category,
+          'department': _department,
+          'name': _name,
+          'time': DateFormat('yyyy-MM-dd-HH:mm').format(DateTime.now()),
+          'status': _status,
+          'description': _description,
+          'area': _area,
+          'price': _price,
+          'deviceNo': _deviceNo,
+          'imagesUrl':urlImages,
+          'phone': _phone,
+          'uid': currentUser.uid,
+        });
+        nameController.clear();
+        descriptionController.clear();
+        priceController.clear();
+        phoneController.clear();
+        imageUrl = null;
+        imageUrl2 = null;
+        imageUrl3 = null;
+        imageUrl4 = null;
+        imageUrl5 = null;
+        imageUrl6 = null;
+        imageUrl7 = null;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+        loadingImage = false;
+      } else {
+        print('please try later');
+      }
+    }else{
+      showMessage('رجائاً تأكد من إضافة صورة واختيار اقسام إعلانك');
     }
   }
 
@@ -1478,5 +1507,13 @@ class _EditAdState extends State<EditAd> {
       );
     });
   }
-
+  showMessage(String msg) {
+    Fluttertoast.showToast(
+        msg:msg,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.blue,
+        fontSize: 17,
+        textColor: Colors.white);
+  }
 }
